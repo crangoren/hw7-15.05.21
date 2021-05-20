@@ -67,9 +67,7 @@ public class MyServer {
      */
     public synchronized void broadcastMessage(String message) {
         clients.forEach(client -> client.sendMsg(message));
-        /*for (ClientHandler client : clients) {
-            client.sendMsg(message);
-        }*/
+
     }
 
     public synchronized void broadcastMessageToClients(String message, List<String> nicknames) {
@@ -94,6 +92,16 @@ public class MyServer {
         // /client nick1 nick2 nick3
         clients.forEach(c-> c.sendMsg(clientsMessage));
     }
+    public synchronized void privateMessage(String message, List<String> targeted ) {
+        for (ClientHandler client : clients) {
+            if (!targeted.contains(client.getName())) {
+                continue;
+            }
+            client.sendMsg(message);
+    }
+}
+
+
 
 
 

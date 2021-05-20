@@ -16,4 +16,6 @@ public class ChatConstants {
 
     public static final String CLIENTS_LIST = "/clients";
 
+    public static final String PRIVATE_MESSAGE = "/w";
+
 }

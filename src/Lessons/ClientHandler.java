@@ -1,10 +1,12 @@
 package Lessons;
 
+import javax.naming.Name;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -61,7 +63,23 @@ public class ClientHandler {
                 }
             } else if (messageFromClient.startsWith(ChatConstants.CLIENTS_LIST)) {
                 server.broadcastClients();
+            } else if (messageFromClient.startsWith(ChatConstants.PRIVATE_MESSAGE)){
+                String[] targetMessage = messageFromClient.split("\\s+");
+                for (int i = 0; i < targetMessage.length; i++) {
+                    targetMessage[i] = targetMessage[i].replaceAll("[^\\w]", "");
+                }
+                List<String> target = Collections.singletonList(targetMessage[1]);
+
+                String[] messageArr = messageFromClient.split("\\s+");
+                for (int i = 2; i < messageArr.length; i++) {
+                    messageArr[i] = messageArr[i].replaceAll("[^\\w]", "");
+                }
+                String message = messageArr.toString();
+
+                server.privateMessage(message, target);
+
             } else {
+
                 server.broadcastMessage("[" + name + "]: " + messageFromClient);
             }
 
