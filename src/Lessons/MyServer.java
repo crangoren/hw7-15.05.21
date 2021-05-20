@@ -92,12 +92,15 @@ public class MyServer {
         // /client nick1 nick2 nick3
         clients.forEach(c-> c.sendMsg(clientsMessage));
     }
+
+
     public synchronized void privateMessage(String message, List<String> targeted ) {
         for (ClientHandler client : clients) {
             if (!targeted.contains(client.getName())) {
                 continue;
             }
-            client.sendMsg(message);
+            String name = client.getName();
+            client.sendMsg("Лично от " + "[" + name + "]:" + " " + message);
     }
 }
 
